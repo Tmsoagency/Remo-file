@@ -1,0 +1,24 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get the URL from the form input
+    $file_url = $_POST["file_url"];
+
+    // Validate the URL (optional)
+    if (filter_var($file_url, FILTER_VALIDATE_URL)) {
+        // Extract the filename from the URL
+        $filename = basename($file_url);
+
+        // Specify the local path where you want to save the file
+        $local_path = "downloads/" . $filename;
+
+        // Download the file and save it locally
+        if (file_put_contents($local_path, file_get_contents($file_url))) {
+            echo "File downloaded and saved successfully!";
+        } else {
+            echo "Failed to download the file.";
+        }
+    } else {
+        echo "Invalid URL. Please enter a valid URL.";
+    }
+}
+?>
